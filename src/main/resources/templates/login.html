@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+
+</head>
+<body>
+<h1>登录</h1>
+<form id="formLogin" method="post" >
+    <br>
+    账号：<input name="account" type="text" value="admin" /> <br>
+    密码：<input name="password" type="password" />
+    <input type="button" value="提交" id = "sub" />
+    <input type="button" value="跨域" id = "sub2" />
+    <input type="button" value="登录成功之后查看带token请求" id = "sub3" />
+</form>
+
+<script src="../../statics/jquery/jquery-3.3.1.min.js"></script>
+<script src="../../statics/jquery/jquery.cookie.js"></script>
+<script src="../../publics/config.url.js"></script>
+<script>
+    $(function(){
+        $("#sub").click(function(){
+
+            var loginJson = {
+                url: "/v1/login",
+                data: $("#formLogin").serialize(),
+                type: "post",
+                success: function (res) {
+                    $.cookie('platform_token',res);
+                    console.log(res)
+                }
+            };
+
+            ajaxX(loginJson);
+
+        });
+        $("#sub2").click(function(){
+
+            var loginJson = {
+                url: "http://127.0.0.1:8080/token/v1/test/corsReq",
+//                data: $("#formLogin").serialize(),
+                type: "get",
+                success: function (res) {
+                    console.log(res)
+                }
+            };
+
+            ajaxX(loginJson);
+
+        });
+
+        $("#sub3").click(function(){
+            var loginJson = {
+                url: "/v1/test",
+                type: "get",
+                success: function (res) {
+                    console.log(res)
+                }
+            };
+            ajaxX(loginJson);
+        });
+
+    })
+</script>
+</body>
+</html>
